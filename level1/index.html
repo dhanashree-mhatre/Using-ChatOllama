@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatModel</title>
+</head>
+<body>
+   <div class="chat-container">
+    <h1>Chat AI</h1>
+    <div id="ai-response">
+
+    </div>
+    <input type="text" name="message" id="message" placeholder="Enter your text here">
+    <button onclick="sendMessage()">Send Message</button>
+   </div>
+   <script>
+    async function sendMessage(){
+        var msg=document.getElementById("message").value;
+        var response=await fetch("http://127.0.0.1:8000/chat",{
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({content:msg})
+        });
+        var reader=response.body.getReader()
+        var decoder= new TextDecoder('utf-8')
+
+        reader.read().then(function processResult(result){
+            if (result.done) return;
+            let token =decoder.decode(result.value);
+            if (token.endsWith('.') || token.endsWith('!') || token.endsWith('?') || token.endsWith('\n'))  {
+                    document.getElementById("ai-response").innerHTML += token + "<br>";
+                }
+            else if(token.endsWith('   ')){    
+                document.getElementById("ai-response").innerHTML +="    "
+                } else {
+                    document.getElementById("ai-response").innerHTML += token + ' ';
+                }
+                return reader.read().then(processResult);
+        })
+
+    }
+   </script>
+</body>
+</html>
+
+
