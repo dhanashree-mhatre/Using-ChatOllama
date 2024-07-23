@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import create_engine
 import sqlalchemy
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.exc import IntegrityError
 
 database_url = "sqlite:///./database.db"
 engine = create_engine(database_url)
@@ -25,8 +26,6 @@ def get_db():
      finally:
          db.close()
 
-
-from sqlalchemy.exc import IntegrityError
 
 def create_session(db: Session):
     while True:
