@@ -24,7 +24,7 @@ def exponentiate(base:int,exponent:int):
 tools=[multiply,add,exponentiate]
 
 prompt = hub.pull("hwchase17/openai-tools-agent")
-llm =ChatOllama(model="tinyllama")
+llm =ChatOpenAI()
 agent=create_tool_calling_agent(llm=llm,tools=tools,prompt=prompt)
 agent_executor=AgentExecutor(agent=agent,tools=tools,verbose=True)
 
