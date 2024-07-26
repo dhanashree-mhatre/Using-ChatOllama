@@ -13,7 +13,7 @@ def get_weather(location:str,unit:Optional[str]):
 chat=ChatGroq(
     temperature=0,
     model="llama3-70b-8192",
-    groq_api_key="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"
+    groq_api_key="Your-api-key"
 )
 tools=[get_weather]
 
